@@ -1,5 +1,5 @@
-import Head from 'next/head'
-import Link from "next/link"
+import Head from "next/head";
+import Link from "next/link";
 import { sanityClient, urlFor } from "../lib/sanity";
 const recipeQuery = `*[_type=="recipe"]{
   _id,
@@ -19,28 +19,22 @@ export default function Home({ recipes }) {
 
       <h1>Welcome to Kap's Kitchen</h1>
       <ul className="recipes-list">
-        {recipes?.length > 0 && recipes.map((recipe) => (
-          <li key={recipe._id} className="recipe-card">
-            <Link href={`/recipes/${recipe.slug.current}`}>
-              <a>
+        {recipes?.length > 0 &&
+          recipes.map((recipe) => (
+            <li key={recipe._id} className="recipe-card">
+              <Link href={`/recipes/${recipe.slug.current}`}>
                 <img src={urlFor(recipe.mainImage).url()} alt={recipe.name} />
                 <span>{recipe.name}</span>
-              </a>
-            </Link>
-          </li>
-        ))}
+              </Link>
+            </li>
+          ))}
       </ul>
     </div>
-  )
+  );
 }
-
 
 export async function getStaticProps() {
   const recipes = await sanityClient.fetch(recipeQuery);
 
-  return {
-    props: {
-      recipes
-    }
-  }
+  return { props: { recipes } };
 }
